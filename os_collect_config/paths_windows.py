@@ -3,7 +3,7 @@ import os
 
 sysdrive = os.environ.get("SYSTEMDRIVE", "C:")
 tripleo_root = os.path.join(sysdrive, "\\", "tripleo")
-CACHEDIR = os.path.join(tripleo_root, "os-collect-config")
+CACHEDIR = os.path.join(tripleo_root, "lib","os-collect-config")
 BACKUP_CACHEDIR = CACHEDIR
 
 CFN_PATH = os.path.join(sysdrive, "\\" ,"cfn")
