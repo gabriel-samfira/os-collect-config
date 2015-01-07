@@ -20,6 +20,7 @@ import shutil
 import signal
 import subprocess
 import sys
+import platform
 import time
 
 from oslo.config import cfg
@@ -35,6 +36,8 @@ from os_collect_config import local
 from os_collect_config.openstack.common import log
 from os_collect_config import request
 from os_collect_config import version
+from os_collect_config.paths import CACHEDIR, BACKUP_CACHEDIR
+
 
 DEFAULT_COLLECTORS = ['heat_local', 'ec2', 'cfn', 'heat', 'request', 'local']
 opts = [
@@ -44,10 +47,10 @@ opts = [
                     ' not specified, os-collect-config will print the'
                     ' collected data as a json map and exit.'),
     cfg.StrOpt('cachedir',
-               default='/var/lib/os-collect-config',
+               default=CACHEDIR,
                help='Directory in which to store local cache of metadata'),
     cfg.StrOpt('backup-cachedir',
-               default='/var/run/os-collect-config',
+               default=BACKUP_CACHEDIR,
                help='Copy cache contents to this directory as well.'),
     cfg.MultiStrOpt(
         'collectors',
@@ -208,7 +211,8 @@ def getfilehash(files):
 
 
 def __main__(args=sys.argv, collector_kwargs_map=None):
-    signal.signal(signal.SIGHUP, reexec_self)
+    if platform.system() != "Windows":
+        signal.signal(signal.SIGHUP, reexec_self)
     setup_conf()
     CONF(args=args[1:], prog="os-collect-config",
          version=version.version_info.version_string())

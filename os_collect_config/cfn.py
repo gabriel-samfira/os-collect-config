@@ -24,6 +24,7 @@ import six.moves.urllib.parse as urlparse
 from os_collect_config import common
 from os_collect_config import exc
 from os_collect_config.openstack.common import log
+from os_collect_config.paths import CFN_METADATA_SERVER
 
 CONF = cfg.CONF
 logger = log.getLogger(__name__)
@@ -32,7 +33,7 @@ opts = [
     cfg.StrOpt('metadata-url',
                help='URL to query for CloudFormation Metadata'),
     cfg.StrOpt('heat-metadata-hint',
-               default='/var/lib/heat-cfntools/cfn-metadata-server',
+               default=CFN_METADATA_SERVER,
                help='Local file to read for metadata url if not explicitly '
                     ' specified'),
     cfg.StrOpt('ca_certificate', help='CA Certificate path'),
